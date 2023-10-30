@@ -1,9 +1,5 @@
 import { useEffect, useState, createContext, useContext } from "react";
-import { onAuthStateChanged, getAuth } from "firebase/auth";
-import firebaseApp from "@/firebase/config";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-
-const auth = getAuth(firebaseApp);
+import { useRouter, usePathname } from "next/navigation";
 
 export const AuthContext = createContext({});
 
@@ -15,8 +11,22 @@ export const AuthContextProvider = ({ children }) => {
   const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
+    async function checkSession() {
+      const res = await fetch("/api/auth/login");
+      const { user } = await res.json();
+
+      setUser(user);
+      setLoading(false);
+
+      if (!user && !PUBLIC_PAGES.includes(pathname)) {
+        router.replace("/login");
+      }
+    }
+
+    checkSession();
+  }, []);
+  /*useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
@@ -31,7 +41,7 @@ export const AuthContextProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, []);*/
 
   return (
     <AuthContext.Provider value={{ user }}>

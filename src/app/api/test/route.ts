@@ -1,21 +1,16 @@
 import { db } from "@/firebase/config";
 import {
   collection,
-  getDocs,
   addDoc,
   Timestamp,
   DocumentData,
 } from "firebase/firestore";
-import firebase from "firebase/app";
 
 const insert = async <T = any>(
   collectionName: string,
   rowMap: { [keyof: string]: T },
 ) => {
-  // Add a new document in collection "cities"
-  //await collection(db, "park_sessions").add(rowMap);
   const docRef = await addDoc(collection(db, collectionName), rowMap);
-  console.log("Document written with ID: ", docRef.id);
 };
 
 const getRandomInt = (min: number, max: number): number => {
@@ -65,8 +60,9 @@ const populateFirestore = async () => {
   while (i > 0) {
     await insert("park_sessions", data[--i]);
   }
-  return data;
   console.log("Firestore collection populated with random data.");
+
+  return data;
 };
 
 export async function GET() {

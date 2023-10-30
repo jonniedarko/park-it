@@ -1,4 +1,13 @@
-import login from "@/firebase/auth/login";
+import login, { getCurrentSession } from "@/firebase/auth/login";
+
+export async function GET(request: Request, response: Response) {
+  const { user } = await getCurrentSession();
+
+  if (!user) {
+    return Response.json({ user: null }, { status: 401 });
+  }
+  return Response.json({ user });
+}
 
 export async function POST(request: Request, response: Response) {
   try {

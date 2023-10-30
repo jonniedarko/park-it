@@ -9,7 +9,6 @@ import {
   setDoc,
   onSnapshot,
 } from "firebase/firestore";
-console.log("ENV", process.env);
 const firebaseConfig = {
   // This throws error currently as used in AuthContext
   // not enough time to figure otu correct solution
@@ -57,7 +56,6 @@ export async function getAllDocuments<T = any>(
   let documents: { [keyof: string]: T } = {};
   querySnapshot.forEach((doc) => {
     documents[`${doc.id}`] = doc.data() as T;
-    console.log(`${doc.id} => ${doc.data()}`);
   });
   return documents;
 }
