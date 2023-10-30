@@ -136,23 +136,6 @@ function DashboardPage() {
     getSessionsFromRemote();
   };
 
-  const handleRowEditStop: GridEventListener<"rowEditStop"> = (
-    params,
-    event,
-  ) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setSessions(
-      sessions.map((row) => (row.id === newRow.id ? updatedRow : row)),
-    );
-    return updatedRow;
-  };
-
   const columnsWithActions = useMemo(
     () => [
       ...columns,
@@ -260,8 +243,6 @@ function DashboardPage() {
               rows={sessions}
               columns={columnsWithActions}
               disableColumnFilter={false}
-              onRowEditStop={handleRowEditStop}
-              processRowUpdate={processRowUpdate}
               // Provide the custom toolbar component
               slots={{ toolbar: GridToolbar }}
               slotProps={{

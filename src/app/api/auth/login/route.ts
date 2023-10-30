@@ -14,7 +14,6 @@ export async function POST(request: Request, response: Response) {
       );
     }
     const d = await login(body.email, body.password);
-    console.log("logged in", d);
     return Response.json({ success: true });
   } catch (e) {
     return Response.json(
