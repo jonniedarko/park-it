@@ -2,6 +2,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthContext";
+import {  ThemeProvider, createTheme } from '@mui/material/styles';
+import { useMemo } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,6 +12,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const theme = useMemo(
+    () =>{
+      return      createTheme({
+        palette: {
+          mode: 'light',
+        },
+      })},
+    [],
+  );
   return (
     <html lang="en">
       {/*
@@ -18,7 +29,9 @@ export default function RootLayout({
       */}
       <head />
       <body className={inter.className}>
+      <ThemeProvider theme={theme}>
         <AuthContextProvider>{children}</AuthContextProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
