@@ -9,7 +9,9 @@ const auth = getAuth(firebaseApp);
 
 export default async function middleware(request: NextRequest) {
   const token = (await cookies().get("session")?.value) || "";
+  console.log('HI')
   if (!token) {
+    console.log('HO')
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
@@ -17,5 +19,5 @@ export default async function middleware(request: NextRequest) {
 // paths include middleware on
 export const config = {
   matcher:
-    "/((?!api/auth/login|api/auth/register|login|register|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api/auth/login||/|api/auth/register|login|register|_next/static|_next/image|favicon.ico).*)",
 };
