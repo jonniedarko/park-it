@@ -10,7 +10,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 **Assumptions** : I made a number of assumptions that I would normally consult with product on :
  - session status didn't need to be persisted - we can figure that our from entry/exit timestamps. This make is less complex because we no longer have to keep it in sync
  - I attempted to introduce over optimisation or unneccessay abstractions e.g. datagrid and columns. This is something that I found can often be a trap for developers who try to make grids/tables reusable. In my experience most premature "engineering" leads to refactors later anyway.
- - I originally started with full grid editing, but in the end I decided to simply. when you create a session it uses current time , when you finish a session it also uses the current time. This means we don't have to worry about as much user error or bad data. i
+ - I originally started with full grid editing, but in the end I decided to simply. when you create a session it uses current time , when you finish a session it also uses the current time. This means we don't have to worry about as much user error or bad data.
+ - I adpated some pre-made templates for login/register from https://github.com/mui/material-ui/blob/v5.14.15/docs/data/material/getting-started/templates/
 
 ## Why Next.js?
 Next.js provides features like server-side rendering and a set of APIs, making it a perfect fit for this project. I choose Next.js due to its popularity, amazing support by vercel and I am familure with it.I also used this to play with the new app directory set up, which is something I've been wanting to try for while
@@ -126,7 +127,7 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 
 ## Bonus Tasks
 
-- [ ] Basic styling for UI elements.
+- [x] Basic styling for UI elements.
 - [x] Implement backend API to separate writes to Firestore.
 - [x] Add authentication via Firebase Auth.
 - [ ] Implement data validation via a framework like `class-validator`.
