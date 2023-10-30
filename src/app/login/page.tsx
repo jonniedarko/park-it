@@ -17,11 +17,17 @@ import {
   Paper,
 } from "@mui/material";
 import Link from "next/link";
+import { useAuthContext } from "@/context/AuthContext";
 
 function Page() {
+  const { user } = useAuthContext();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const router = useRouter();
+
+  if(user) {
+    router.push("/dashboard")
+  }
 
   const handleForm = async (event) => {
     event.preventDefault();
@@ -60,7 +66,7 @@ function Page() {
             backgroundPosition: "center",
           }}
         />
-        <Grid item component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,

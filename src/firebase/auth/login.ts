@@ -11,6 +11,7 @@ export default async function signIn(email, password) {
   try {
     result = await signInWithEmailAndPassword(firebaseAppAuth, email, password);
     const token = await result.user?.getIdTokenResult();
+    console.log('token', token)
     if (token) {
       const expiresIn = 60 * 60 * 1000;
 
@@ -36,7 +37,9 @@ export async function getCurrentSession(): Promise<{
 }> {
   let token = null;
   try {
-    token = JSON.parse(cookies().get("session")?.value || "");
+    const sessionString = cookies().get("session")?.value || ""
+    console.log('session', sessionString)
+    token = JSON.parse(sessionString);
   } catch (e) {
     console.log("no session");
   }

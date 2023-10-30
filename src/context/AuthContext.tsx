@@ -1,13 +1,14 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext({user: null});
 
-export const useAuthContext = () => useContext(AuthContext);
+export const useAuthContext = () => useContext<{user: any}>(AuthContext);
 
 const PUBLIC_PAGES = ["/", "/login", "/logout", "/register"];
 export const AuthContextProvider = ({ children }) => {
   const router = useRouter();
+  const loginChecked = useState(false)
   const pathname = usePathname();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,22 +27,6 @@ export const AuthContextProvider = ({ children }) => {
 
     checkSession();
   }, []);
-  /*useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
-
-      if (!user && PUBLIC_PAGES.includes(pathname)) {
-        router.replace("/login");
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, []);*/
 
   return (
     <AuthContext.Provider value={{ user }}>
