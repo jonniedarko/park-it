@@ -1,18 +1,13 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-First, run the development server:
-
-
----------------------
 # Park-It: Parking Session Tracker
 
 ## Overview
 Park-It is a proof-of-concept parking session tracking system built using Next.js, Firebase Firestore, TypeScript, and React. This system enables tracking and modification of parking sessions via a user-friendly frontend application.
 
-** Important notes ** : I did not document firebase set up. Firebase is knew to me and not confident it is configuration right now, more time is needed to read through docs to understand it more. I also have a bug with how I am currently using Auth on client side (AuthContext) due to apiKey in process.env not being available on front end. I know I can add Env vars via next.config.js to the client side but I did not have enough time understanding the security implications and find the right solution. given it was a Bonus I elected to not explore any further for now. 
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-** Assumptions ** : I made a number of assumptions that I would normally consult with product on :
+**Important notes** : I did not document firebase set up. Firebase is knew to me and not confident it is configuration right now, more time is needed to read through docs to understand it more. I also have a bug with how I am currently using Auth on client side (AuthContext) due to apiKey in process.env not being available on front end. I know I can add Env vars via next.config.js to the client side but I did not have enough time understanding the security implications and find the right solution. given it was a Bonus I elected to not explore any further for now. 
+
+**Assumptions** : I made a number of assumptions that I would normally consult with product on :
  - session status didn't need to be persisted - we can figure that our from entry/exit timestamps. This make is less complex because we no longer have to keep it in sync
  - I attempted to introduce over optimisation or unneccessay abstractions e.g. datagrid and columns. This is something that I found can often be a trap for developers who try to make grids/tables reusable. In my experience most premature "engineering" leads to refactors later anyway.  
 
@@ -26,12 +21,6 @@ Next.js provides features like server-side rendering and a set of APIs, making i
 4. To start the development serve run :
    ```bash
     npm run dev
-    # or
-    yarn dev
-    # or
-    pnpm dev
-    # or
-    bun dev
    ```
 
 ## Directory Structure
