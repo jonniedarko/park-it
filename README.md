@@ -134,7 +134,7 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 - [ ] Implement data validation via a framework like `class-validator`.
 - [ ] Add pagination for DataGrid.
 - [ ] Write unit tests for critical functionalities.
-- [ ] Deploy the application on Firebase hosting.
+- [x] Deploy the application on Firebase hosting. See it live [here](https://park-it-rouge.vercel.app/login)
 
 ## Conclusion
 TBD
