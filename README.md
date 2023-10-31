@@ -6,7 +6,7 @@ Park-It is a proof-of-concept parking session tracking system built using Next.j
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-**Important notes** : I did not document firebase set up. Firebase is knew to me and not confident it is configuration right now, more time is needed to read through docs to understand it more. I also have a bug with how I am currently using Auth on client side (AuthContext) due to apiKey in process.env not being available on front end. I know I can add Env vars via next.config.js to the client side but I did not have enough time understanding the security implications and find the right solution. given it was a Bonus I elected to not explore any further for now. 
+**Important notes** : I did not document firebase set up. Firebase is knew to me and I am not currently confident it is configuration right now (set for Test in firebase console, so definitly not production ready), more time is needed to read through docs to understand it more. 
 
 **Assumptions** : I made a number of assumptions that I would normally consult with product on :
  - session status didn't need to be persisted - we can figure that our from entry/exit timestamps. This make is less complex because we no longer have to keep it in sync
@@ -77,9 +77,7 @@ When the component mounts (`useEffect`), it fetches the parking session data by 
 
 1. **Adding a New Session**: Clicking the 'Add' button opens the `NewSessionDialog` where users can input new session details. The `addRecord` function then processes this data.
   
-2. **Editing an Existing Session**: Sessions can be directly edited in the DataGrid. The `handleRowEditStop` and `processRowUpdate` functions manage these edits.
-
-3. **Completing a Session**: An 'End Session' button appears next to active sessions. Clicking this button triggers `handleCompleteSessionClick`, which updates the session status.
+2. **Completing a Session**: An 'End Session' button appears next to active sessions. Clicking this button triggers `handleCompleteSessionClick`, which updates the session status.
 
 #### User Feedback
 
@@ -108,12 +106,12 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 
 ### Libraries
 
-- `src/lib/transformers.ts`: Utility functions.
-- `src/lib/validators.ts`: Validation functions.
+- `src/lib/transformers.ts`: Utility functions. Currently used to convert the firebase data into format for Mui Grid (columns and rows) 
+- `src/lib/validators.ts`: Validation functions. Currently just js & regex for very basic phone and license plate validation. For more complex validation I would use either something like [zod](https://github.com/colinhacks/zod) or [Magic-Regex](https://github.com/danielroe/magic-regexp)
 
 ### Middleware
 
-- `src/middleware.ts`: Middleware for route protection.
+- `src/middleware.ts`: Middleware for route protection with white list of public paths.
 
 ## Prioritized Tasks to Meet Minimum Criteria
 
@@ -125,6 +123,9 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 
 ## Not done:
 - [ ] prevent multiple active sessions for same car
+   - How I might have approached this: 
+     Without deep diving into firebase and how its indexes and such work one avenue that could be considered would be check if an open session exits prior to save new entry,
+     if yes would could offer the user oppertunity to close existing session (maybe with an option to request setting exit date or disputed it and deal with it later?). This way the customer can still park and not get blocked in the moment. **To Reviewer:** I would love feedback on this if possible. What would be your ideal solution here?
 
 ## Bonus Tasks
 
@@ -137,7 +138,11 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 - [x] Deploy the application on Firebase hosting. See it live [here](https://park-it-rouge.vercel.app/login)
 
 ## Conclusion
-TBD
+Overall given the time contraints I feel I dealth with this in a reasonable manner for what might be a POC or starting point for an application. I did make some decisions in the context of time and what I considered would make it "shippable". For example I choose to implement the Auth because I did want to deploy it (I firmly believe its much better when you can see it working live and interact with out). Without Auth, the firebase endpoints could potentiall be abused.
+
+If this where to actually be shipped to customer as anything more then a POC, on top of the rest of the task (including bonus ones) We would need to add a Nav bar with user profile and logout button. There is also a bug preventing auto directing to dashboard after login that would need to be rectified.
+
+
 
 
 
