@@ -5,7 +5,7 @@ export async function GET(
   _: NextRequest,
   { params }: { params: { id: string } },
 ) {
-  const doc = await getDocument("park_sessions", params.id);
+  const doc = await getDocument("parking_sessions", params.id);
   if (doc) {
     return Response.json({
       session: doc,
@@ -27,9 +27,10 @@ export async function POST(
   { params }: { params: { id: string } },
 ) {
   try {
-    await setDocument("park_sessions", params.id, request.body);
+    await setDocument("parking_sessions", params.id, await request.json());
     return Response.json({ success: true, error: null });
   } catch (e) {
+    console.log("error", e);
     return Response.json(
       { success: true, error: null },
       {

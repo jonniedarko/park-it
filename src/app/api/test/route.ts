@@ -35,13 +35,10 @@ const generateRandomData = (): Array<DocumentData> => {
         getRandomInt(0, 23),
         getRandomInt(0, 59),
       ),
-    );
+    ).seconds;
     const exitTimestamp = Timestamp.fromDate(
-      new Date(
-        entryTimestamp.toDate().getTime() +
-          getRandomInt(1, 12) * 60 * 60 * 1000,
-      ),
-    );
+      new Date(entryTimestamp * 1000 + getRandomInt(1, 12) * 60 * 60 * 1000),
+    ).seconds;
     const status = getRandomInt(0, 1) === 0 ? "active" : "completed";
     data.push({
       phoneNumber,
@@ -58,7 +55,7 @@ const populateFirestore = async () => {
   const data = generateRandomData();
   let i = data.length;
   while (i > 0) {
-    await insert("park_sessions", data[--i]);
+    await insert("parking_sessions", data[--i]);
   }
   console.log("Firestore collection populated with random data.");
 
@@ -69,7 +66,7 @@ export async function GET() {
   const data = generateRandomData();
   let i = data.length;
   while (i > 0) {
-    await insert("park_sessions", data[--i]);
+    await insert("parking_sessions", data[--i]);
   }
   return Response.json({
     sessions: data,
