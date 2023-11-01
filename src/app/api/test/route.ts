@@ -39,26 +39,13 @@ const generateRandomData = (): Array<DocumentData> => {
     const exitTimestamp = Timestamp.fromDate(
       new Date(entryTimestamp * 1000 + getRandomInt(1, 12) * 60 * 60 * 1000),
     ).seconds;
-    const status = getRandomInt(0, 1) === 0 ? "active" : "completed";
     data.push({
       phoneNumber,
       licensePlateNumber,
       entryTimestamp,
       exitTimestamp,
-      status,
     });
   }
-  return data;
-};
-
-const populateFirestore = async () => {
-  const data = generateRandomData();
-  let i = data.length;
-  while (i > 0) {
-    await insert("parking_sessions", data[--i]);
-  }
-  console.log("Firestore collection populated with random data.");
-
   return data;
 };
 

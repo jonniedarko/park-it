@@ -87,7 +87,6 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
             margin="dense"
             id="name"
             label="Vehicle Registration"
-            type="email"
             fullWidth
             variant="standard" />
           <TextField
@@ -100,7 +99,6 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
             margin="dense"
             id="name"
             label="Phone"
-            type="email"
             fullWidth
             variant="standard" />
         </DialogContent>
