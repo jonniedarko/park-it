@@ -138,41 +138,42 @@ function DashboardPage() {
   );
 
   const columnsWithActions = useMemo(
-    () => [
-      ...columns,
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "Status",
-        width: 100,
-        cellClassName: "actions",
-        //@ts-ignore
-        renderCell: ({ row: { id, exitTimestamp } }: GridRowParams) => {
-          debugger;
-          const hasCompletedSession =
-            //@ts-ignore
-            !isNaN(exitTimestamp) && exitTimestamp > 0;
-          return (
-            <IconButton
-              disabled={hasCompletedSession}
-              onClick={handleCompleteSessionClick(id)}
-              color={hasCompletedSession ? "inherit" : "warning"}
-              key={`complete-session-${id}`}
-            >
-              {hasCompletedSession ? (
-                <Tooltip title="Session Ended">
-                  <CheckIcon />
-                </Tooltip>
-              ) : (
-                <Tooltip title="Click to complete session">
-                  <ActiveIcon />
-                </Tooltip>
-              )}
-            </IconButton>
-          );
+    () =>
+      [
+        ...columns,
+        {
+          field: "actions",
+          type: "actions",
+          headerName: "Status",
+          width: 100,
+          cellClassName: "actions",
+          //@ts-ignore
+          renderCell: ({ row: { id, exitTimestamp } }: GridRowParams) => {
+            debugger;
+            const hasCompletedSession =
+              //@ts-ignore
+              !isNaN(exitTimestamp) && exitTimestamp > 0;
+            return (
+              <IconButton
+                disabled={hasCompletedSession}
+                onClick={handleCompleteSessionClick(id)}
+                color={hasCompletedSession ? "inherit" : "warning"}
+                key={`complete-session-${id}`}
+              >
+                {hasCompletedSession ? (
+                  <Tooltip title="Session Ended">
+                    <CheckIcon />
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Click to complete session">
+                    <ActiveIcon />
+                  </Tooltip>
+                )}
+              </IconButton>
+            );
+          },
         },
-      },
-    ],
+      ] as GridColDef[],
     [handleCompleteSessionClick],
   );
 
