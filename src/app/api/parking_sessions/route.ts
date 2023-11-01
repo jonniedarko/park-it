@@ -3,13 +3,13 @@ import { NextRequest } from "next/server";
 
 export async function GET() {
   return Response.json({
-    sessions: await getAllDocuments("park_sessions"),
+    sessions: await getAllDocuments("parking_sessions"),
   });
 }
 
 export async function POST(request: NextRequest) {
   try {
-    await createDocument("park_sessions", await request.json());
+    await createDocument("parking_sessions", await request.json());
     return Response.json({ success: true, error: null });
   } catch (e) {
     return Response.json(

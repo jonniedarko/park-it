@@ -1,4 +1,3 @@
-
 import register from "@/firebase/auth/regsiter";
 import { NextRequest } from "next/server";
 
@@ -16,7 +15,9 @@ export async function POST(request: NextRequest) {
       );
     }
     await register(body.email, body.password);
-    return Response.redirect("/login");
+    return Response.json({
+      success: true,
+    });
   } catch (e) {
     return Response.json(
       { success: true, error: null },
