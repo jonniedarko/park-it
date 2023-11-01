@@ -1,12 +1,8 @@
 "use client";
 import { useAuthContext } from "@/context/AuthContext";
 import {
-  GridActionsCellItem,
-  GridEventListener,
   GridRenderCellParams,
-  GridRowEditStopReasons,
   GridRowId,
-  GridRowModel,
   GridRowParams,
 } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
@@ -17,7 +13,7 @@ import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Timestamp } from "firebase/firestore";
 import CheckIcon from "@mui/icons-material/NoCrash";
 import ActiveIcon from "@mui/icons-material/DirectionsCar";
-import { createDocument, setDocument } from "@/firebase/config";
+import { createDocument } from "@/firebase/config";
 import { CenteredLoadingIndicator } from "@/components/CenteredLoadingIndicator";
 import { NewSessionDialog } from "@/components/NewSessionDialog";
 import { transformSessionsToGridFormat } from "@/lib/transformers";
@@ -43,7 +39,7 @@ const columns = [
     width: 200,
     renderCell: (props: GridRenderCellParams<any, Date>) => {
       try {
-        const d = new Date(props.value * 1000);
+        const d = new Date((props.value as any) * 1000);
         return (
           <>
             {d.toLocaleString("en-us", {
@@ -68,7 +64,7 @@ const columns = [
     width: 200,
     renderCell: (props: GridRenderCellParams<any, Date>) => {
       try {
-        const d = new Date(props.value * 1000);
+        const d = new Date((props.value as any) * 1000);
         return (
           <>
             {d.toLocaleString("en-us", {
