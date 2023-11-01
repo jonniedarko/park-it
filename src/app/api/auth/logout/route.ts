@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     await logout();
-    return Response.redirect("/");
+    return Response.json({ success: true });
   } catch (e) {
     return Response.json(
       { success: true, error: null },

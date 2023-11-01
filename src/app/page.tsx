@@ -2,8 +2,11 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { Container, Typography, Button, Box } from "@mui/material";
 import Link from "next/link";
+import { getCurrentSession } from "@/firebase/auth/login";
+import { redirect } from "next/navigation";
 
-const LandingPage = () => {
+const LandingPage = async () => {
+  const { user } = await getCurrentSession();
   return (
     <Container maxWidth="md">
       <Box
@@ -17,6 +20,14 @@ const LandingPage = () => {
           bgcolor: "background.default",
         }}
       >
+        <Box>
+          <Image
+            src="/park-it.svg"
+            width={500}
+            height={500}
+            alt="Dall-e generated logo 😄"
+          />
+        </Box>
         <Typography variant="h2" gutterBottom>
           Parking Session Tracker
         </Typography>
@@ -24,9 +35,9 @@ const LandingPage = () => {
           Monitor and manage your parking sessions easily
         </Typography>
         <Box sx={{ mt: 4 }}>
-          <Link href="/login">
+          <Link href={user ? "/dashboard" : "/login"}>
             <Button variant="contained" color="primary" size="large">
-              Get Started
+              {user ? "Go to dashboard" : "Login to Get Started"}
             </Button>
           </Link>
         </Box>
@@ -36,4 +47,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-``;

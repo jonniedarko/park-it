@@ -153,7 +153,7 @@ function DashboardPage() {
             const hasCompletedSession =
               //@ts-ignore
               !isNaN(exitTimestamp) && exitTimestamp > 0;
-            return (
+            return () => (
               <IconButton
                 disabled={hasCompletedSession}
                 onClick={handleCompleteSessionClick(id)}
@@ -243,6 +243,10 @@ function DashboardPage() {
               rows={sessions}
               columns={columnsWithActions}
               disableColumnFilter={false}
+              pageSizeOptions={[5, 10, 25]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 10 } },
+              }}
               // Provide the custom toolbar component
               slots={{ toolbar: GridToolbar }}
               slotProps={{
