@@ -18,16 +18,18 @@ const LandingPage = async () => {
           bgcolor: "background.default",
         }}
       >
-        <Box>
+        <Box sx={{ width: "100%", position: "relative" }}>
           <Image
             src="/park-it.svg"
-            width={500}
-            height={500}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "100%", height: "auto" }}
             alt="Dall-e generated logo 😄"
           />
         </Box>
         <Typography variant="h2" gutterBottom>
-          Parking Session Tracker
+          Session Tracker
         </Typography>
         <Typography variant="subtitle1" paragraph>
           Monitor and manage your parking sessions easily
