@@ -9,9 +9,7 @@ const auth = getAuth(firebaseApp);
 
 export default async function middleware(request: NextRequest) {
   const token = (await cookies().get("session")?.value) || "";
-  console.log('HI')
   if (!token) {
-    console.log('HO')
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }

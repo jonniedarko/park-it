@@ -15,6 +15,7 @@ export async function POST(request: Request, response: Response) {
     if (!body.email || !body.password) {
       return Response.json(
         {
+          success: false,
           error: "email and password is required",
         },
         {
@@ -22,9 +23,15 @@ export async function POST(request: Request, response: Response) {
         },
       );
     }
-    const d = await login(body.email, body.password);
-    return Response.json({ success: true });
+    const firebaseResponse = await login(body.email, body.password);
+    if (firebaseResponse.error) {
+      throw firebaseResponse.error;
+    }
+
+    const { user } = await getCurrentSession();
+    return Response.json({ success: !!firebaseResponse.result, user });
   } catch (e) {
+    console.error("error", e);
     return Response.json(
       { success: false, error: e.message },
       {

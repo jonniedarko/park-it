@@ -40,20 +40,15 @@ const columns = [
     renderCell: (props: GridRenderCellParams<any, Date>) => {
       try {
         const d = new Date((props.value as any) * 1000);
-        return (
-          <>
-            {d.toLocaleString("en-us", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            })}
-          </>
-        );
+        return d.toLocaleString("en-us", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
       } catch (e) {
-        console.error("error converting entryTimestamp", e);
         return <>{""}</>;
       }
     },
@@ -64,19 +59,18 @@ const columns = [
     width: 200,
     renderCell: (props: GridRenderCellParams<any, Date>) => {
       try {
+        if (!props.value) {
+          return null;
+        }
         const d = new Date((props.value as any) * 1000);
-        return (
-          <>
-            {d.toLocaleString("en-us", {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            })}
-          </>
-        );
+        return d.toLocaleString("en-us", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
       } catch (e) {
         console.error("error converting entryTimestamp", e);
         return "pending";
@@ -108,6 +102,7 @@ function DashboardPage() {
     const transformed = transformSessionsToGridFormat(d.sessions);
     setSessions(transformed);
   }
+
   const handleCompleteSessionClick = useCallback(
     (id: GridRowId) => async () => {
       let targetSession = sessions.find((s) => s.id === id);
@@ -151,7 +146,7 @@ function DashboardPage() {
             const hasCompletedSession =
               //@ts-ignore
               !isNaN(exitTimestamp) && exitTimestamp > 0;
-            return () => (
+            return (
               <IconButton
                 disabled={hasCompletedSession}
                 onClick={handleCompleteSessionClick(id)}
@@ -181,6 +176,7 @@ function DashboardPage() {
   }, [user]);
 
   const addRecord = async ({ licensePlate, phone }) => {
+    debugger;
     const id = `TEMP_${Math.max(...sessions.map((s) => s.id), 0) + 1}`;
     try {
       const newRecord = {
@@ -188,14 +184,23 @@ function DashboardPage() {
         licensePlateNumber: licensePlate,
         phoneNumber: phone,
         status: "active",
-        entryTimestamp: Timestamp.now(),
+        entryTimestamp: Timestamp.now().seconds,
         exitTimestamp: null,
       };
       setSessions((oldSessions) => [
         ...oldSessions,
         { ...newRecord, isNew: true },
       ]);
-      await createDocument("parking_sessions", newRecord);
+      const response = await fetch("/api/parking_sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newRecord),
+      });
+      if (!response.ok) {
+        throw "Failed to save";
+      }
       setSnack({
         severity: "success",
         open: true,

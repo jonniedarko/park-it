@@ -1,12 +1,14 @@
 "use client";
 import React, { useRef, useState } from "react";
 import {
-  Button, Dialog,
+  Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Fab, TextField
+  Fab,
+  TextField,
 } from "@mui/material";
 import { GridAddIcon as AddIcon } from "@mui/x-data-grid";
 import { Timestamp } from "firebase/firestore";
@@ -22,14 +24,16 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
   const phoneNumberRef = useRef<HTMLInputElement>(null);
   const onInputChange = () => {
     setValidation({
-      phone: phoneNumberRef.current?.value &&
+      phone:
+        phoneNumberRef.current?.value &&
         phoneNumberRef.current !== document.activeElement
-        ? validatePhoneNumber(phoneNumberRef.current.value)
-        : null,
-      licensePlate: licensePlateNumberRef.current?.value &&
+          ? validatePhoneNumber(phoneNumberRef.current.value)
+          : null,
+      licensePlate:
+        licensePlateNumberRef.current?.value &&
         licensePlateNumberRef.current !== document.activeElement
-        ? validateLicensePlate(licensePlateNumberRef.current.value)
-        : null,
+          ? validateLicensePlate(licensePlateNumberRef.current.value)
+          : null,
     });
     if (!dirty) setDirty(true);
   };
@@ -51,11 +55,10 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
     const licensePlate = licensePlateNumberRef.current.value;
     const phone = phoneNumberRef.current.value;
     handleClose();
+    debugger;
     onAddNew({
       licensePlate,
       phone,
-      entry: Timestamp.fromDate(new Date()),
-      status: "active",
     });
   };
 
@@ -79,28 +82,34 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
             onBlur={onInputChange}
             inputRef={licensePlateNumberRef}
             error={validation.licensePlate === false}
-            helperText={validation.licensePlate === false
-              ? "Invalid license plate"
-              : undefined}
+            helperText={
+              validation.licensePlate === false
+                ? "Invalid license plate"
+                : undefined
+            }
             onChange={onInputChange}
             autoFocus
             margin="dense"
             id="name"
             label="Vehicle Registration"
             fullWidth
-            variant="standard" />
+            variant="standard"
+          />
           <TextField
             onBlur={onInputChange}
             inputRef={phoneNumberRef}
             error={validation.phone === false}
-            helperText={validation.phone === false ? "Invalid phone number" : undefined}
+            helperText={
+              validation.phone === false ? "Invalid phone number" : undefined
+            }
             onChange={onInputChange}
             autoFocus
             margin="dense"
             id="name"
             label="Phone"
             fullWidth
-            variant="standard" />
+            variant="standard"
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

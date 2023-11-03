@@ -1,5 +1,4 @@
 "use client";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -41,13 +40,7 @@ export default function RootLayout({
   };
 
   const handleLogout = async () => {
-    const response = await fetch("/api/auth/logout");
-
-    if (!response.ok) {
-      //@todo add snackbar notification
-      return console.log(response.statusText);
-    }
-    return router.replace("/");
+    return router.replace("/logout");
   };
 
   const theme = useMemo(() => {
@@ -103,7 +96,9 @@ export default function RootLayout({
                         onClose={handleCloseUserMenu}
                       >
                         <MenuItem onClick={handleLogout}>
-                          <Typography textAlign="center">Logout</Typography>
+                          <Typography component="span" textAlign="center">
+                            Logout
+                          </Typography>
                         </MenuItem>
                       </Menu>
                     </Box>

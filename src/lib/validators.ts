@@ -1,7 +1,7 @@
 export function validatePhoneNumber(value: string): boolean {
   if (!value) return false;
   const phoneNum = ["(", ")", "+1", "-", " "].reduce(
-    (str, ch) => str.replace(ch, ""),
+    (str, ch) => str.replaceAll(ch, ""),
     value,
   );
   const tenDigitPhoneNumberRegex = /^\d{10}$/;

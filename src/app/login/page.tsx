@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 import { useRouter } from "next/navigation";
 import { LockOutlined } from "@mui/icons-material";
@@ -20,17 +20,15 @@ import Link from "next/link";
 import { useAuthContext } from "@/context/AuthContext";
 
 function Page() {
-  const { user } = useAuthContext();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { user, setUser } = useAuthContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState({ message: null });
   const router = useRouter();
-
-  if (user) {
-    router.push("/dashboard");
-  }
 
   const handleForm = async (event) => {
     event.preventDefault();
+    setError({ message: null });
     const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: {
@@ -40,9 +38,18 @@ function Page() {
     });
 
     if (!response.ok) {
+      setError({
+        message:
+          response.status === 401
+            ? "Invalid email or password"
+            : "An Unknown error occured",
+      });
       //@todo add snackbar notification
       return console.log(response.statusText);
     }
+    const body = await response.json?.();
+    const loggedinUser = body?.user || null;
+    setUser(loggedinUser);
     return router.replace("/dashboard");
   };
 
@@ -108,6 +115,7 @@ function Page() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            <Typography color="error">{error.message ?? " "}</Typography>
             <Button
               type="submit"
               fullWidth
@@ -119,7 +127,7 @@ function Page() {
             <Grid container>
               <Grid item>
                 <Link href="/register">
-                  <MuiLink variant="body2">
+                  <MuiLink variant="body2" component="span">
                     {"Don't have an account? Sign Up"}
                   </MuiLink>
                 </Link>

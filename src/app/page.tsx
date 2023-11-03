@@ -1,9 +1,7 @@
 import Image from "next/image";
-import styles from "./page.module.css";
 import { Container, Typography, Button, Box } from "@mui/material";
 import Link from "next/link";
 import { getCurrentSession } from "@/firebase/auth/login";
-import { redirect } from "next/navigation";
 
 const LandingPage = async () => {
   const { user } = await getCurrentSession();
