@@ -110,7 +110,6 @@ function DashboardPage() {
   }
   const handleCompleteSessionClick = useCallback(
     (id: GridRowId) => async () => {
-      debugger;
       let targetSession = sessions.find((s) => s.id === id);
       if (!targetSession) return;
       console.log("targetSession", targetSession);
@@ -149,7 +148,6 @@ function DashboardPage() {
           cellClassName: "actions",
           //@ts-ignore
           renderCell: ({ row: { id, exitTimestamp } }: GridRowParams) => {
-            debugger;
             const hasCompletedSession =
               //@ts-ignore
               !isNaN(exitTimestamp) && exitTimestamp > 0;
