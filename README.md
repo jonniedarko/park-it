@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 **Assumptions** : I made a number of assumptions that I would normally consult with product on :
  - session status didn't need to be persisted - we can figure that our from entry/exit timestamps. This make is less complex because we no longer have to keep it in sync
- - I attempted to introduce over optimisation or unneccessay abstractions e.g. datagrid and columns. This is something that I found can often be a trap for developers who try to make grids/tables reusable. In my experience most premature "engineering" leads to refactors later anyway.
+ - I attempted to not over optimisation or introduce unneccessay abstractions e.g. datagrid and columns. This is something that I found can often be a trap for developers who try to make grids/tables reusable. In my experience most premature "engineering" leads to refactors later anyway.
  - I originally started with full grid editing, but in the end I decided to simply. when you create a session it uses current time , when you finish a session it also uses the current time. This means we don't have to worry about as much user error or bad data.
  - I adpated some pre-made templates for login/register from https://github.com/mui/material-ui/blob/v5.14.15/docs/data/material/getting-started/templates/
 
@@ -32,9 +32,11 @@ Next.js provides features like server-side rendering and a set of APIs, making i
 
 #### Authentication
 These APIs are simple endpoint wrappers for methods in our firebase config file
-- `src/app/api/auth/login/route.ts`: Handles user login.  
-- `src/app/api/auth/logout/route.ts`: Handles user logout. (no ui for this currently)
+- `src/app/api/auth/login/route.ts`: Handles user login.
+    - `GET` gets current user
+    - `POST` performs login
 - `src/app/api/auth/register/route.ts`: Handles user registration.
+- `src/app/logout/page.ts`: Handles user logout. (server side component that redirects after deleting cookie to `/`)
 
 #### Parking Sessions
 
@@ -63,6 +65,10 @@ These APIs are simple endpoint wrappers for methods in our firebase config file
 3. **Utility Functions**
     - `getSessions` and `getSessionsFromRemote`: Responsible for fetching session data from the backend.
     - validations for the phone number and license plates (imported from `validators.ts` - simple regex/js functions
+
+4. **Auth**
+    - Uses firebase email/password authentication. The returned user is then stored in secure httpOnly cookie
+    - For simplicty for this project we simple check for the existence of the cookie to verify is logged in, in reality we may want to store the user in db and use a token.
 
 
 #### Column Definitions
@@ -98,7 +104,7 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 - `src/context/AuthContext.tsx`: Provides authentication state throughout the app.
 
 ### Firebase
-
+Since I did not have pervious experience with firebase or Nextjs 13/14 app directory, I decided to keep all firebase access to server side only, as I was concerned about exposing api keys. This may not be the prefered approach with firebase but I felt more comfortable with it given my current experience with it.
 - `src/firebase/auth/login.ts`: Firebase login logic.
 - `src/firebase/auth/logout.ts`: Firebase logout logic.
 - `src/firebase/auth/register.ts`: Firebase registration logic.
@@ -106,7 +112,7 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 
 ### Libraries
 
-- `src/lib/transformers.ts`: Utility functions. Currently used to convert the firebase data into format for Mui Grid (columns and rows) 
+- `src/lib/transformers.ts`: Utility functions. Currently used to convert the firebase data into format for Mui Grid (columns and rows). It also includes a sort function to initially sort by `exitTimestamp` and `entryTimestamp`, keeping opened sessions (`exitTimestamp = null`) at top
 - `src/lib/validators.ts`: Validation functions. Currently just js & regex for very basic phone and license plate validation. For more complex validation I would use either something like [zod](https://github.com/colinhacks/zod) or [Magic-Regex](https://github.com/danielroe/magic-regexp)
 
 ### Middleware
