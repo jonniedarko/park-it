@@ -120,20 +120,15 @@ The component uses `useEffect` to check if a user is authenticated through `useA
 3. [x] Implement form validations for phone numbers and license plates.
 4. [x] Create, update, and complete parking sessions via UI.
 5. [x] Provide real-time user feedback and loading indicators.
-
-## Not done:
-- [ ] prevent multiple active sessions for same car
-   - How I might have approached this: 
-     Without deep diving into firebase and how its indexes and such work one avenue that could be considered would be check if an open session exits prior to save new entry,
-     if yes would could offer the user oppertunity to close existing session (maybe with an option to request setting exit date or disputed it and deal with it later?). This way the customer can still park and not get blocked in the moment. **To Reviewer:** I would love feedback on this if possible. What would be your ideal solution here?
-
+6. [x] prevent multiple active sessions for same car - Done through validation
+  
 ## Bonus Tasks
 
 - [x] Basic styling for UI elements.
 - [x] Implement backend API to separate writes to Firestore.
 - [x] Add authentication via Firebase Auth.
 - [ ] Implement data validation via a framework like `class-validator`.
-- [ ] Add pagination for DataGrid.
+- [x] Add pagination for DataGrid.
 - [ ] Write unit tests for critical functionalities.
 - [x] Deploy the application on Firebase hosting. See it live [here](https://park-it-rouge.vercel.app/login)
 
