@@ -28,7 +28,7 @@ const LandingPage = async () => {
             alt="Dall-e generated logo 😄"
           />
         </Box>
-        <Typography variant="h2" gutterBottom>
+        <Typography variant="h2" fontSize="3rem" gutterBottom>
           Session Tracker
         </Typography>
         <Typography variant="subtitle1" paragraph>
