@@ -11,10 +11,16 @@ import {
   TextField,
 } from "@mui/material";
 import { GridAddIcon as AddIcon } from "@mui/x-data-grid";
-import { Timestamp } from "firebase/firestore";
 import { validateLicensePlate, validatePhoneNumber } from "@/lib/validators";
 
-export function NewSessionDialog({ open, setOpen, onAddNew }) {
+function hasOpenSession(licensePlate: string, sessions: any[]): any {
+  const existingOpenSession = sessions.find(
+    (s) => s.licensePlateNumber === licensePlate && !Boolean(s.exitTimestamp),
+  );
+  return Boolean(existingOpenSession);
+}
+
+export function NewSessionDialog({ open, setOpen, onAddNew, sessions = [] }) {
   const [dirty, setDirty] = useState(false);
   const [validation, setValidation] = useState({
     phone: null,
@@ -23,16 +29,27 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
   const licensePlateNumberRef = useRef<HTMLInputElement>(null);
   const phoneNumberRef = useRef<HTMLInputElement>(null);
   const onInputChange = () => {
+    let licensePlateValidationMessage = null;
+    if (
+      licensePlateNumberRef.current?.value &&
+      hasOpenSession(licensePlateNumberRef.current.value, sessions)
+    ) {
+      licensePlateValidationMessage = `License Plate ${licensePlateNumberRef.current.value} already has active session`;
+    } else if (
+      licensePlateNumberRef.current?.value &&
+      !validateLicensePlate(licensePlateNumberRef.current.value)
+    ) {
+      licensePlateValidationMessage = "Invalid license Plate";
+    }
+    const phoneValid =
+      phoneNumberRef.current?.value &&
+      phoneNumberRef.current !== document.activeElement &&
+      validatePhoneNumber(phoneNumberRef.current.value);
     setValidation({
-      phone:
-        phoneNumberRef.current?.value &&
-        phoneNumberRef.current !== document.activeElement
-          ? validatePhoneNumber(phoneNumberRef.current.value)
-          : null,
+      phone: phoneValid ? null : "Phone number requires 10 digits",
       licensePlate:
-        licensePlateNumberRef.current?.value &&
         licensePlateNumberRef.current !== document.activeElement
-          ? validateLicensePlate(licensePlateNumberRef.current.value)
+          ? licensePlateValidationMessage
           : null,
     });
     if (!dirty) setDirty(true);
@@ -55,7 +72,6 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
     const licensePlate = licensePlateNumberRef.current.value;
     const phone = phoneNumberRef.current.value;
     handleClose();
-    debugger;
     onAddNew({
       licensePlate,
       phone,
@@ -81,12 +97,8 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
           <TextField
             onBlur={onInputChange}
             inputRef={licensePlateNumberRef}
-            error={validation.licensePlate === false}
-            helperText={
-              validation.licensePlate === false
-                ? "Invalid license plate"
-                : undefined
-            }
+            error={!!validation.licensePlate}
+            helperText={validation.licensePlate || ""}
             onChange={onInputChange}
             autoFocus
             margin="dense"
@@ -98,10 +110,8 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
           <TextField
             onBlur={onInputChange}
             inputRef={phoneNumberRef}
-            error={validation.phone === false}
-            helperText={
-              validation.phone === false ? "Invalid phone number" : undefined
-            }
+            error={!!validation.phone}
+            helperText={!!validation.phone ? "Invalid phone number" : ""}
             onChange={onInputChange}
             autoFocus
             margin="dense"
@@ -115,7 +125,7 @@ export function NewSessionDialog({ open, setOpen, onAddNew }) {
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={handleAddNew}
-            disabled={!Object.values(validation).every((v) => v === true)}
+            disabled={Object.values(validation).some((v) => Boolean(v))}
           >
             Start Session
           </Button>

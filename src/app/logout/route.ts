@@ -15,7 +15,6 @@ export async function GET(_request: NextRequest) {
     };
 
     cookies().set(options);
-    console.info("cookie deleted");
     await logout();
   } catch (e) {
     console.error("Logout", e);

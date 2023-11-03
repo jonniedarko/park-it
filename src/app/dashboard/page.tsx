@@ -72,7 +72,6 @@ const columns = [
           second: "2-digit",
         });
       } catch (e) {
-        console.error("error converting entryTimestamp", e);
         return "pending";
       }
     },
@@ -107,7 +106,6 @@ function DashboardPage() {
     (id: GridRowId) => async () => {
       let targetSession = sessions.find((s) => s.id === id);
       if (!targetSession) return;
-      console.log("targetSession", targetSession);
       const res = await fetch(`/api/parking_sessions/${id}`, {
         method: "POST",
         headers: {
@@ -119,8 +117,7 @@ function DashboardPage() {
           exitTimestamp: Timestamp.now().seconds,
         }),
       });
-      console.log("res", res.json());
-      //await setDocument("parking_sessions", `${id}`, {});
+      
       setSnack({
         severity: "success",
         open: true,
@@ -176,20 +173,17 @@ function DashboardPage() {
   }, [user]);
 
   const addRecord = async ({ licensePlate, phone }) => {
-    debugger;
     const id = `TEMP_${Math.max(...sessions.map((s) => s.id), 0) + 1}`;
     try {
       const newRecord = {
-        id,
         licensePlateNumber: licensePlate,
         phoneNumber: phone,
-        status: "active",
         entryTimestamp: Timestamp.now().seconds,
         exitTimestamp: null,
       };
       setSessions((oldSessions) => [
         ...oldSessions,
-        { ...newRecord, isNew: true },
+        { ...newRecord, id, isNew: true },
       ]);
       const response = await fetch("/api/parking_sessions", {
         method: "POST",
@@ -267,6 +261,7 @@ function DashboardPage() {
           open={addModalOpen}
           setOpen={setAddModalOpen}
           onAddNew={addRecord}
+          sessions={sessions}
         />
       </div>
     </>

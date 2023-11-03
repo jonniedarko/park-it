@@ -6,6 +6,7 @@ import {
   Dispatch,
 } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { CenteredLoadingIndicator } from "@/components/CenteredLoadingIndicator";
 
 export const AuthContext = createContext({ user: null, setUser: null });
 
@@ -23,7 +24,6 @@ export const AuthContextProvider = ({ children }) => {
       const res = await fetch("/api/auth/login");
       const { user: verifiedUser } = await res.json();
 
-      console.log(verifiedUser, "----", PUBLIC_PAGES.includes(pathname));
       setUser(verifiedUser);
       if (!verifiedUser && !PUBLIC_PAGES.includes(pathname)) {
         router.replace("/login");
@@ -37,7 +37,7 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? <CenteredLoadingIndicator /> : children}
     </AuthContext.Provider>
   );
 };

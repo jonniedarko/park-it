@@ -33,6 +33,5 @@ export function transformSessionsToGridFormat(sessions: any): GridRowsProp[] {
     };
     rows.push(row);
   }
-  debugger;
   return rows.sort(sortSessionsByTimestamps);
 }
