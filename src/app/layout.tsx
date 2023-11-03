@@ -112,7 +112,7 @@ export default function RootLayout({
                 bgcolor: "background.default",
                 flexGrow: 1,
                 height: "100vh",
-                overflow: "auto",
+                overflowY: "auto",
               }}
             >
               {children}
