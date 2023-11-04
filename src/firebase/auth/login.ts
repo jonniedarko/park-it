@@ -1,4 +1,4 @@
-import firebaseApp from "@/firebase/config";
+import { firebaseApp } from "@/firebase/config";
 import { cookies } from "next/headers";
 
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
