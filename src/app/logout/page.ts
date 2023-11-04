@@ -3,7 +3,7 @@ import logout from "@/firebase/auth/logout";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function LogoutAndRedirect() {
+export default async function LogoutAndRedirect() {
   const options = {
     name: "session",
     value: "",
