@@ -13,7 +13,6 @@ import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Timestamp } from "firebase/firestore";
 import CheckIcon from "@mui/icons-material/NoCrash";
 import ActiveIcon from "@mui/icons-material/DirectionsCar";
-import { createDocument } from "@/firebase/config";
 import { CenteredLoadingIndicator } from "@/components/CenteredLoadingIndicator";
 import { NewSessionDialog } from "@/components/NewSessionDialog";
 import { transformSessionsToGridFormat } from "@/lib/transformers";
@@ -117,7 +116,7 @@ function DashboardPage() {
           exitTimestamp: Timestamp.now().seconds,
         }),
       });
-      
+
       setSnack({
         severity: "success",
         open: true,

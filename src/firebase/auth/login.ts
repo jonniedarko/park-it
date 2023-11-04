@@ -1,5 +1,5 @@
-import firebaseApp from "../config";
-import { cookies, headers } from "next/headers";
+import firebaseApp from "@/firebase/config";
+import { cookies } from "next/headers";
 
 import { signInWithEmailAndPassword, getAuth } from "firebase/auth";
 
@@ -36,7 +36,7 @@ export async function getCurrentSession(): Promise<{
 }> {
   let token = null;
   try {
-    const sessionString = cookies().get("session")?.value || ""
+    const sessionString = cookies().get("session")?.value || "";
     token = JSON.parse(sessionString);
   } catch (e) {
     console.log("no session");
