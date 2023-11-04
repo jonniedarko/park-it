@@ -1,4 +1,4 @@
-import { getAllDocuments, createDocument } from "@/firebase/config";
+import { getAllDocuments, createDocument } from "@/firebase/db";
 import { NextRequest } from "next/server";
 
 export async function GET() {

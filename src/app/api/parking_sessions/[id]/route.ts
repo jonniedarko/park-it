@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getDocument, setDocument } from "@/firebase/config";
+import { getDocument, setDocument } from "@/firebase/db";
 
 export async function GET(
   _: NextRequest,
