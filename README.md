@@ -6,7 +6,7 @@ Park-It is a proof-of-concept parking session tracking system built using Next.j
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-**Important notes** : I did not document firebase set up. Firebase is knew to me and I am not currently confident it is configuration right now (set for Test in firebase console, so definitly not production ready), more time is needed to read through docs to understand it more. 
+**Important notes** : I did not document firebase set up. Firebase is knew to me and I do not know best practices.
 
 **Assumptions** : I made a number of assumptions that I would normally consult with product on :
  - session status didn't need to be persisted - we can figure that our from entry/exit timestamps. This make is less complex because we no longer have to keep it in sync
