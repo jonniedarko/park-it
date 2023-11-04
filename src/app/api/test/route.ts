@@ -1,6 +1,8 @@
 import { createDocument } from "@/firebase/db";
 import { Timestamp, DocumentData } from "firebase/firestore";
 
+export const dynamic = "force-dynamic";
+
 const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };

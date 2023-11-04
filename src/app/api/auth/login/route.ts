@@ -1,6 +1,6 @@
 import login, { getCurrentSession } from "@/firebase/auth/login";
 
-export async function GET(request: Request, response: Response) {
+export async function GET(_request: Request, _response: Response) {
   const { user } = await getCurrentSession();
 
   if (!user) {
@@ -9,7 +9,7 @@ export async function GET(request: Request, response: Response) {
   return Response.json({ user });
 }
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request, _response: Response) {
   try {
     const body = await request.json();
     if (!body.email || !body.password) {
