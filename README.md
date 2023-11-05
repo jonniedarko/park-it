@@ -1,4 +1,6 @@
 # Park-It: Parking Session Tracker
+![Building & Tests passing](https://github.com/jonniedarko/park-it/actions/workflows/pr.yml/badge.svg?event=push&branch=main) <a href="https://nextjs.org" > <img src="https://img.shields.io/badge/Nextjs-App_directory-blue?logo=nextdotjs" /> </a> <a href="https://firebase.google.com" > <img src="https://img.shields.io/badge/Firebase-Web-orange?logo=firebase" /> </a> <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Vercel-Hosted-purple?logo=vercel" /></a>
+
 See it live [here](https://park-it-rouge.vercel.app/login)
 
 ## Overview
