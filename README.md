@@ -135,11 +135,11 @@ Since I did not have pervious experience with firebase or Nextjs 13/14 app direc
 - [x] Add authentication via Firebase Auth.
 - [ ] Implement data validation via a framework like `class-validator`.
 - [x] Add pagination for DataGrid.
-- [ ] Write unit tests for critical functionalities.
+- [x] Write unit tests for critical functionalities. Added [here](https://github.com/jonniedarko/park-it/pull/3)
 - [x] Deploy the application on Firebase hosting. See it live [here](https://park-it-rouge.vercel.app/login)
 
 ## Conclusion
-Overall given the time contraints I feel I dealth with this in a reasonable manner for what might be a POC or starting point for an application. I did make some decisions in the context of time and what I considered would make it "shippable". For example I choose to implement the Auth because I did want to deploy it (I firmly believe its much better when you can see it working live and interact with out). Without Auth, the firebase endpoints could potentiall be abused.
+Overall given the time contraints I feel I dealth with this in a reasonable manner for what might be a POC or starting point for an application. I did make some decisions in the context of time and what I considered would make it "shippable". For example I choose to implement the Auth early because I wanted to deploy it (I firmly believe its much easier to review when you can see or use a working example and interact with. Also without Auth, the firebase endpoints could potentiall be abused.
 
 If this where to actually be shipped to customer as anything more then a POC, on top of the rest of the task (including bonus ones) We would need to add a Nav bar with user profile and logout button. There is also a bug preventing auto directing to dashboard after login that would need to be rectified.
 
