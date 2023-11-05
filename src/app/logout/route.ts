@@ -1,9 +1,8 @@
-"use server";
 import logout from "@/firebase/auth/logout";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function LogoutAndRedirect() {
+export async function GET(_req: Request, _res: Response) {
   const options = {
     name: "session",
     value: "",

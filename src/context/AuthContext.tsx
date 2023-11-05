@@ -7,6 +7,7 @@ import {
 } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { CenteredLoadingIndicator } from "@/components/CenteredLoadingIndicator";
+import { Box } from "@mui/material";
 
 export const AuthContext = createContext({ user: null, setUser: null });
 
@@ -37,7 +38,21 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      {loading ? <CenteredLoadingIndicator /> : children}
+      {loading || true ? (
+        <Box
+          sx={{
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            "& .MuiBox-root": { justifyContent: "center" },
+            alignItems: "center",
+          }}
+        >
+          <CenteredLoadingIndicator />
+        </Box>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };
