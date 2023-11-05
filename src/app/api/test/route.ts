@@ -1,17 +1,7 @@
-import { db } from "@/firebase/config";
-import {
-  collection,
-  addDoc,
-  Timestamp,
-  DocumentData,
-} from "firebase/firestore";
+import { createDocument } from "@/firebase/db";
+import { Timestamp, DocumentData } from "firebase/firestore";
 
-const insert = async <T = any>(
-  collectionName: string,
-  rowMap: { [keyof: string]: T },
-) => {
-  const docRef = await addDoc(collection(db, collectionName), rowMap);
-};
+export const dynamic = "force-dynamic";
 
 const getRandomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -53,7 +43,7 @@ export async function GET() {
   const data = generateRandomData();
   let i = data.length;
   while (i > 0) {
-    await insert("parking_sessions", data[--i]);
+    await createDocument("parking_sessions", data[--i]);
   }
   return Response.json({
     sessions: data,

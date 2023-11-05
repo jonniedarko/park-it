@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
-import { getDocument, setDocument } from "@/firebase/config";
+import { getDocument, setDocument } from "@/firebase/db";
 
+export const dynamic = "force-dynamic";
 export async function GET(
   _: NextRequest,
   { params }: { params: { id: string } },

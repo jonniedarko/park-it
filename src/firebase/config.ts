@@ -1,14 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import {
-  getFirestore,
-  getDocs,
-  collection,
-  getDoc,
-  doc,
-  addDoc,
-  setDoc,
-  onSnapshot,
-} from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   // This throws error currently as used in AuthContext
   // not enough time to figure otu correct solution
@@ -22,51 +13,11 @@ const firebaseConfig = {
   databaseURL: process.env.FIREBASE_DATABASE_URL,
 };
 // Initialize Firebase
-let firebaseApp =
+export let firebaseApp =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
+// to enable building without Firebase config for ci
+export const dynamicRouteValue =
+  process.env.NODE_ENV === "test" ? "force-dynamic" : "auto";
+
 export const db = getFirestore(firebaseApp);
-export async function getDocument<T = any>(
-  targetCollection: string,
-  id: string,
-): Promise<T> {
-  const snap = await getDoc(doc(db, targetCollection, id));
-  if (snap.exists()) return snap.data() as T;
-  else
-    return Promise.reject(Error(`No such document: ${targetCollection}.${id}`));
-}
-
-export async function setDocument<T = any>(
-  targetCollection: string,
-  id: string,
-  value: T,
-) {
-  await setDoc(doc(db, targetCollection, id), value);
-}
-export async function createDocument<T = any>(
-  targetCollection: string,
-  value: T,
-) {
-  await addDoc(collection(db, targetCollection), value);
-}
-export async function getAllDocuments<T = any>(
-  targetCollection: string,
-): Promise<{ [keyof: string]: T }> {
-  const querySnapshot = await getDocs(collection(db, targetCollection));
-  let documents: { [keyof: string]: T } = {};
-  querySnapshot.forEach((doc) => {
-    documents[`${doc.id}`] = doc.data() as T;
-  });
-  return documents;
-}
-
-export function subscribeToCollection<T = any>(
-  targetCollection: string,
-  onUpdateRecieved: Function,
-) {
-  const unsubscribe = onSnapshot(doc(db, targetCollection), (doc) => {
-    onUpdateRecieved(doc.data() as Array<T>);
-  });
-  return unsubscribe;
-}
-export default firebaseApp;

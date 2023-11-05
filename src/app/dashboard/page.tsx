@@ -13,7 +13,6 @@ import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Timestamp } from "firebase/firestore";
 import CheckIcon from "@mui/icons-material/NoCrash";
 import ActiveIcon from "@mui/icons-material/DirectionsCar";
-import { createDocument } from "@/firebase/config";
 import { CenteredLoadingIndicator } from "@/components/CenteredLoadingIndicator";
 import { NewSessionDialog } from "@/components/NewSessionDialog";
 import { transformSessionsToGridFormat } from "@/lib/transformers";
@@ -106,7 +105,7 @@ function DashboardPage() {
     (id: GridRowId) => async () => {
       let targetSession = sessions.find((s) => s.id === id);
       if (!targetSession) return;
-      const res = await fetch(`/api/parking_sessions/${id}`, {
+      await fetch(`/api/parking_sessions/${id}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -117,7 +116,7 @@ function DashboardPage() {
           exitTimestamp: Timestamp.now().seconds,
         }),
       });
-      
+
       setSnack({
         severity: "success",
         open: true,
@@ -170,7 +169,7 @@ function DashboardPage() {
   useEffect(() => {
     if (user == null) router.push("/");
     getSessionsFromRemote();
-  }, [user]);
+  }, [user, router]);
 
   const addRecord = async ({ licensePlate, phone }) => {
     const id = `TEMP_${Math.max(...sessions.map((s) => s.id), 0) + 1}`;

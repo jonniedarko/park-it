@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-import firebaseApp from "@/firebase/config";
+import { firebaseApp } from "@/firebase/config";
 import { getAuth } from "firebase/auth";
 import { cookies } from "next/headers";
 
