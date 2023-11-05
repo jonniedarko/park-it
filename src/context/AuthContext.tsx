@@ -34,11 +34,11 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     checkSession();
-  }, []);
+  }, [pathname, router]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>
-      {loading || true ? (
+      {loading ? (
         <Box
           sx={{
             width: "100vw",

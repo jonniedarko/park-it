@@ -105,7 +105,7 @@ function DashboardPage() {
     (id: GridRowId) => async () => {
       let targetSession = sessions.find((s) => s.id === id);
       if (!targetSession) return;
-      const res = await fetch(`/api/parking_sessions/${id}`, {
+      await fetch(`/api/parking_sessions/${id}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -169,7 +169,7 @@ function DashboardPage() {
   useEffect(() => {
     if (user == null) router.push("/");
     getSessionsFromRemote();
-  }, [user]);
+  }, [user, router]);
 
   const addRecord = async ({ licensePlate, phone }) => {
     const id = `TEMP_${Math.max(...sessions.map((s) => s.id), 0) + 1}`;
