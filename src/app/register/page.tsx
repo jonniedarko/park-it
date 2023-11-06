@@ -58,7 +58,7 @@ export default function RegsiterUserPage() {
         <Typography component="h2" variant="h6" color="error">
           Demo mode
         </Typography>
-        <Typography component="span" variant="body" color="error">
+        <Typography component="span" variant="body2" color="error">
           Sign up disabled. Please contact Admin if you need access.
         </Typography>
         <Box component="form" noValidate onSubmit={handleForm} sx={{ mt: 1 }}>
