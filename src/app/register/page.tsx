@@ -55,6 +55,12 @@ export default function RegsiterUserPage() {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
+        <Typography component="h2" variant="h6" color="error">
+          Demo mode
+        </Typography>
+        <Typography component="span" variant="body" color="error">
+          Sign up disabled. Please contact Admin if you need access.
+        </Typography>
         <Box component="form" noValidate onSubmit={handleForm} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
@@ -65,6 +71,7 @@ export default function RegsiterUserPage() {
             name="email"
             autoComplete="email"
             autoFocus
+            disabled
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
@@ -76,6 +83,7 @@ export default function RegsiterUserPage() {
             label="Password"
             type="password"
             id="password"
+            disabled
             autoComplete="current-password"
           />
 
