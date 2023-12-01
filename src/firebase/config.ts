@@ -16,8 +16,4 @@ const firebaseConfig = {
 export let firebaseApp =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-// to enable building without Firebase config for ci
-export const dynamicRouteValue =
-  process.env.NODE_ENV === "test" ? "force-dynamic" : "auto";
-
 export const db = getFirestore(firebaseApp);
